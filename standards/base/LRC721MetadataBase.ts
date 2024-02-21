@@ -128,6 +128,18 @@ export class LRC721MetadataBase implements Contract, LRC721Metadata {
     return this._approvedFor.get(tokenId);
   }
 
+  owners() {
+    const owners: Record<string, number[]> = {};
+    for (const [tokenId, holder] of this._tokenHolder) {
+      if (owners[holder]) {
+        owners[holder].push(tokenId);
+      } else {
+        owners[holder] = [tokenId];
+      }
+    }
+    return owners;
+  }
+
   async isApprovedForAll({ args }: ContractParams) {
     const schema = z.tuple([z.string(), z.string()]);
     const [owner, operator] = argsParsing(schema, args, "isApprovedForAll");
@@ -146,6 +158,15 @@ export class LRC721MetadataBase implements Contract, LRC721Metadata {
     return this._currentTokenId - 1;
   }
 
+  /**
+   * handling the logic of transferring a token
+   * resets the approval flag for the token id, as the new holder should not have this approval flag set
+   * @param from
+   * @param to
+   * @param tokenId
+   * @param eventLogger
+   * @protected
+   */
   protected async _transferLogic(
     from: string,
     to: string,

@@ -84,6 +84,10 @@ export class LRC20Base implements Contract, LRC20 {
     return this._totalSupply;
   }
 
+  owners() {
+    return Object.fromEntries(this._balance);
+  }
+
   balanceOf({ args }: ContractParams) {
     const schema = z.tuple([z.string()]);
     const [from] = argsParsing(schema, args, "balanceOf");
