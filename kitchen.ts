@@ -298,7 +298,6 @@ export default class Kitchen implements Contract {
     const diff = currentBlock - prevBlock;
     const accumulatedRewards = BigInt(diff) * rewardsPerBlock;
     const totalStaked = this._totalDeposited.get(depositTokenContract);
-    console.log(this._totalDeposited);
     if (totalStaked === undefined)
       throw new ExecutionError("updatePool: total staked is missing");
     const perStake =

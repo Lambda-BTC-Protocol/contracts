@@ -4,7 +4,6 @@ import { z } from "zod";
 import { argsParsing } from "./utils/args-parsing.ts";
 import { ContractParams } from "./types/contract.ts";
 import { zUtils } from "./utils/zod.ts";
-import { update } from "lodash";
 
 export default class Bitcoin extends LRC20Base {
   _protocolWallet = "protocol";

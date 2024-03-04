@@ -111,12 +111,16 @@ export class LRC20Base implements Contract, LRC20 {
     if (this._alreadyMinted)
       throw new ExecutionError("mint: already minted; can only be done once");
 
-    this._balance.set(metadata.sender, amount);
     this._alreadyMinted = true;
-    this._totalSupply = amount;
+    this._internalMint(metadata.sender, amount, eventLogger);
+  }
+
+  protected _internalMint(to: string, value: bigint, eventLogger: EventLogger) {
+    this._balance.update(to, 0n, (currentBalance) => currentBalance + value);
+    this._totalSupply += value;
     eventLogger.log({
       type: "TRANSFER",
-      message: `FROM: 0x0; TO: '${metadata.sender}'; VALUE: ${amount}`,
+      message: `FROM: 0x0; TO: '${to}'; VALUE: ${value}`,
     });
   }
 

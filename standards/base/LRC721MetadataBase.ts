@@ -9,10 +9,13 @@ import { LRC721Metadata } from "../LRC-721-Metadata.ts";
 export class LRC721MetadataBase implements Contract, LRC721Metadata {
   activeOn = 0;
 
-  private _currentTokenId = 0;
-  private _tokenHolder = new ExtendedMap<number, string>();
-  private _approvedFor = new ExtendedMap<number, string>();
-  private _walletApprovedAll = new ExtendedMap<string, Map<string, boolean>>(); // owner -> operator -> approved
+  protected _currentTokenId = 0;
+  protected _tokenHolder = new ExtendedMap<number, string>();
+  protected _approvedFor = new ExtendedMap<number, string>();
+  protected _walletApprovedAll = new ExtendedMap<
+    string,
+    Map<string, boolean>
+  >(); // owner -> operator -> approved
 
   constructor(
     private _name: string,
